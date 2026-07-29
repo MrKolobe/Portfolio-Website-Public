@@ -1,0 +1,60 @@
+/* ── Reset ────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow:hidden}
+
+/* ── App shell ────────────────────────────────────────────────── */
+#app{
+  height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;
+  background-image:url('../assets/images/9d071e4bbca0a9aff62a72135e2d05a01bd56cc1.png');
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+}
+
+/* ── Navigation ───────────────────────────────────────────────── */
+#main-nav{
+  width:100%;background:transparent;display:flex;
+  align-items:center;justify-content:space-between;
+  flex-shrink:0;z-index:1000;position:relative;
+}
+#nav-logo-btn{
+  display:flex;align-items:center;
+  background:none;border:none;cursor:pointer;padding:0;
+}
+#nav-avatar{border-radius:50%;overflow:hidden;flex-shrink:0;background-color:#C2C2C2;object-fit:cover;display:block}
+#nav-logo-words{display:flex;align-items:baseline}
+.nav-logo-text{font-family:'Poppins',sans-serif;font-weight:700;color:white;line-height:1.2}
+#nav-links{display:flex;align-items:center}
+.nav-link-btn{
+  font-family:'Poppins',sans-serif;font-weight:400;background:none;border:none;
+  cursor:pointer;position:relative;line-height:normal;white-space:nowrap;color:white;
+}
+.nav-active-indicator{position:absolute;bottom:0;background-color:#fd6f00;display:none}
+#nav-cv-btn{
+  font-family:'Poppins',sans-serif;font-weight:400;color:white;
+  background-color:#fd6f00;box-shadow:0px 4px 4px rgba(0,0,0,.25);
+  border:none;cursor:pointer;white-space:nowrap;
+}
+
+/* ── Layout ───────────────────────────────────────────────────── */
+#centering-row{flex:1;display:flex;justify-content:center;overflow:hidden}
+#viewport-container{height:100%;overflow:hidden;position:relative}
+#scroll-region{height:100%;overflow-y:auto;overflow-x:hidden;position:relative}
+#scroll-region::-webkit-scrollbar{width:4px}
+#scroll-region::-webkit-scrollbar-track{background:transparent}
+#scroll-region::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+#content-sizer{position:relative;width:100%}
+#section-scaler{position:absolute;width:1920px;transform-origin:top left}
+
+/* ── Sections ─────────────────────────────────────────────────── */
+.portfolio-section{width:100%;height:100%;position:relative}
+
+/* ── Overlays ─────────────────────────────────────────────────── */
+.overlay-btn{position:absolute;background:transparent;border:none;cursor:pointer;z-index:10;display:none;padding:0}
+
+/* ── Footer ───────────────────────────────────────────────────── */
+#footer-overlay{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  z-index:100;display:flex;align-items:center;justify-content:center;
+  background:transparent;pointer-events:none;
+}
+#footer-overlay p{font-family:'Roboto',sans-serif;font-weight:300;color:#99a1af;text-align:center;margin:0}

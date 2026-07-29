@@ -1,0 +1,4 @@
+/*
+ * Responsiveness is handled entirely by the JS scale system in main.js.
+ * scale = window.innerWidth / 1920 applied to all px values on resize.
+ */
