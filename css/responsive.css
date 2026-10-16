@@ -1,654 +1,273 @@
-@media (max-width: 1200px) {
-  html,
-  body {
-    width: 100%;
-    min-width: 0;
-    height: 100%;
-    overflow: hidden;
-  }
+/* ==========================================================================
+   responsive.css - everything below the 1920px desktop canvas.
 
-  #app {
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
-    min-height: 0;
-  }
+   Desktop (>1200px): style.css lays the page out on a 1920px Figma canvas and
+   js/main.js scales it to the window, so nothing here applies.
+
+   Below 1200px that canvas can't stay absolutely positioned, so:
+     1. Shell          app frame, nav, glass workspace, footer
+     2. Reflow         un-position the Figma canvas so content flows
+     3. Type scale     one fluid clamp() scale instead of per-breakpoint sizes
+     4. Pages          per-page composition (home, about, projects, ...)
+     5. Components     skill bars, testimonial carousel (from the original file)
+     6. Phones         natural page scroll + sticky nav (<=767px, or short landscape)
+
+   js/main.js clears the inline sizes it sets on desktop when the window drops
+   below 1200px, so no !important is needed to beat them.
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+
+  /* ---------- 1. Shell ---------- */
+  html, body { width: 100%; min-width: 0; height: auto; overflow-x: hidden; overflow-y: auto; }
+  #app { width: 100%; height: 100vh; height: 100dvh; min-height: 0; }
 
   #main-nav {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      "brand cv"
-      "links links";
+    grid-template-areas: "brand cv" "links links";
     gap: 8px 16px;
     width: 100%;
-    height: auto !important;
-    padding: 12px 24px !important;
+    height: auto;
+    padding: 12px 24px;
   }
+  #nav-logo-btn { grid-area: brand; gap: 10px; min-width: 0; }
+  #nav-avatar { width: 48px; height: 48px; }
+  #nav-logo-words { gap: 4px; }
+  .nav-logo-text { font-size: clamp(20px, 3vw, 28px); letter-spacing: 0.6px; }
+  #nav-cv-btn { grid-area: cv; min-height: 44px; padding: 10px 16px; border-radius: 5px; font-size: 15px; letter-spacing: 0; white-space: nowrap; }
 
-  #nav-logo-btn {
-    grid-area: brand;
-    gap: 10px !important;
-    min-width: 0;
-  }
-
-  #nav-avatar {
-    width: 48px !important;
-    height: 48px !important;
-  }
-
-  #nav-logo-words {
-    gap: 4px !important;
-  }
-
-  .nav-logo-text {
-    font-size: clamp(20px, 3vw, 28px) !important;
-    letter-spacing: 0.6px !important;
-  }
-
+  /* six items never collide: one scrollable strip (main.js centres the active one) */
   #nav-links {
-    grid-area: links;
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 4px !important;
-    width: 100%;
-  }
-
-  .nav-link-btn {
-    min-width: 0;
-    min-height: 44px;
-    padding: 8px 4px !important;
-    font-size: clamp(13px, 1.8vw, 17px) !important;
-    letter-spacing: 0 !important;
-    white-space: normal;
-  }
-
-  .nav-active-indicator {
-    right: 6px !important;
-    bottom: 2px;
-    left: 6px !important;
-    height: 3px !important;
-    border-radius: 20px !important;
-  }
-
-  #nav-cv-btn {
-    grid-area: cv;
-    min-height: 44px;
-    padding: 10px 16px !important;
-    border-radius: 5px !important;
-    font-size: 15px !important;
-    letter-spacing: 0 !important;
-    white-space: nowrap;
-  }
-
-  #centering-row,
-  #viewport-container,
-  #glass-workspace,
-  #scroll-region {
-    width: 100% !important;
-    min-width: 0;
-    max-width: 100%;
-  }
-
-  #centering-row {
-    flex: 1 1 auto;
-    min-height: 0;
-  }
-
-  #viewport-container {
-    height: 100%;
-    border-radius: 20px 20px 0 0 !important;
-  }
-
-  #glass-workspace {
-    height: 100% !important;
-    border-width: 2px 2px 0 !important;
-    border-radius: inherit;
-  }
-
-  #scroll-region {
-    flex: 1 1 auto;
-    height: auto !important;
-    min-height: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  body[data-page="home"] #scroll-region {
-    overflow-y: hidden;
-  }
-
-  #content-sizer,
-  #section-scaler {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0;
-    transform: none !important;
-    transform-origin: top left;
-  }
-
-  .portfolio-section {
-    display: flex !important;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0;
-    padding: 16px;
-    overflow: visible;
-  }
-
-  .portfolio-section > .site-background-texture,
-  .portfolio-section > .responsive-desktop-navigation,
-  .portfolio-section > .responsive-brand-lockup,
-  .portfolio-section > .responsive-brand-avatar-artwork {
-    display: none !important;
-  }
-
-  .portfolio-section :is(div, p, a, button, label, input, textarea, img, svg, ul, li, span) {
-    position: static !important;
-    inset: auto !important;
-    top: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    left: auto !important;
-    float: none !important;
-    transform: none !important;
-    width: auto !important;
-    height: auto !important;
-    min-width: 0;
-    min-height: 0;
-    max-width: 100% !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-  }
-
-  .portfolio-section :is(div, p, a, button, label, input, textarea, ul, li, span) {
-    flex-shrink: 1;
-  }
-
-  .portfolio-section :is(p, label, li) {
-    margin: 0 0 0.65rem;
-    line-height: 1.45 !important;
-  }
-
-  .portfolio-section :is(img, svg) {
-    display: block;
-    width: min(100%, 180px) !important;
-    max-width: min(100%, 180px) !important;
-    height: auto !important;
-    max-height: min(60vw, 360px) !important;
-    object-fit: contain;
-  }
-
-  .portfolio-section svg:has(> foreignObject) {
-    display: none !important;
-  }
-
-  .portfolio-section .responsive-wrapping-group {
-    flex-wrap: wrap !important;
-  }
-
-  .portfolio-section :is(button, .portfolio-action-button) {
-    min-height: 44px;
-    max-width: 100% !important;
-    padding: 10px 16px !important;
-    font-size: 16px !important;
-    line-height: 1.25 !important;
-  }
-
-  .portfolio-section .home-social-button {
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 44px;
-    width: 44px !important;
-    height: 44px !important;
-    padding: 0 !important;
-  }
-
-  .portfolio-section .home-social-button svg {
-    width: 26px !important;
-    height: 26px !important;
-  }
-
-  #section-home .home-tool-group {
-    display: flex !important;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    width: 100% !important;
-    max-width: 320px !important;
-    margin-inline: auto;
-  }
-
-  #section-home .home-tool-group svg {
-    width: 22px !important;
-    height: 22px !important;
-    max-height: 22px !important;
-  }
-
-  #section-home .home-tool-group img {
-    width: 54px !important;
-    height: 64px !important;
-    max-width: 100% !important;
-    max-height: 64px !important;
-    margin-inline: auto;
-    object-fit: cover;
-  }
-
-  #section-home {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-content: start;
-    gap: 8px 12px;
-  }
-
-  #section-home p {
-    grid-column: 1 / -1;
-  }
-
-  #section-home > .home-social-group,
-  #section-home .home-social-group {
-    display: flex !important;
-    grid-column: 1 / -1;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  #section-home .home-tool-group {
-    grid-column: 1 / -1;
-  }
-
-  #footer-overlay {
-    flex: 0 0 auto;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 32px;
-    padding: 7px 12px;
-  }
-
-  #footer-overlay p {
-    max-width: 100%;
-    font-size: 12px !important;
-    line-height: 1.3;
-    letter-spacing: 0.2px !important;
-    overflow-wrap: anywhere;
-  }
-
-  .contact-form-control {
-    display: block;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 48px;
-    padding: 10px 14px;
-    font-size: 16px !important;
-  }
-
-  .contact-message-control {
-    min-height: 150px;
-    height: 150px !important;
-  }
-
-  #overlay-back-projects {
-    display: none !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1200px) {
-  .portfolio-section {
-    padding: 24px;
-    gap: 20px;
-  }
-
-  #section-home {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) minmax(160px, 280px);
-    align-content: start;
-    gap: 12px 20px;
-  }
-
-  #section-home .home-greeting,
-  #section-home .home-name,
-  #section-home .home-headline-primary,
-  #section-home .home-headline-secondary {
-    grid-column: 1;
-  }
-
-  #section-home .home-greeting,
-  #section-home .home-name,
-  #section-home .home-headline-primary, #section-home .home-headline-secondary {
-    grid-column: 1;
-    margin: 0 !important;
-  }
-
-  #section-home .home-greeting {
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-  }
-
-  #section-home .home-name {
-    font-size: 26px !important;
-    line-height: 1.2 !important;
-  }
-
-  #section-home .home-headline-primary, #section-home .home-headline-secondary {
-    font-size: clamp(46px, 6vw, 74px) !important;
-    line-height: 1 !important;
-  }
-
-  #section-home p {
-    margin: 0 0 8px !important;
-  }
-
-  #section-home .home-introduction-copy,
-  #section-home #hire-me-btn,
-  #section-home .home-social-group {
-    grid-column: 1 / -1;
-  }
-
-  #section-home .home-introduction-copy {
-    font-size: 17px !important;
-    line-height: 1.4 !important;
-  }
-
-  #section-home .home-tool-group {
-    grid-column: 2;
-    grid-row: 1 / span 4;
-    align-self: center;
-    width: 100% !important;
-    max-width: 280px !important;
-  }
-
-  #section-home .home-tool-group svg {
-    width: 40px !important;
-    height: 40px !important;
-    max-height: 40px !important;
-  }
-
-  #section-home .home-tool-group img {
-    width: 100px !important;
-    height: 128px !important;
-    max-height: 128px !important;
-  }
-
-  .portfolio-section .responsive-hero-heading {
-    font-size: clamp(48px, 8vw, 96px) !important;
-  }
-
-  .portfolio-section .responsive-section-heading {
-    font-size: clamp(36px, 5.5vw, 65px) !important;
-  }
-
-  .portfolio-section .responsive-subheading {
-    font-size: clamp(30px, 4.2vw, 40px) !important;
-  }
-
-  .portfolio-section .responsive-card-heading {
-    font-size: clamp(24px, 3.6vw, 32px) !important;
-  }
-
-  .portfolio-section .responsive-label-heading {
-    font-size: clamp(19px, 2.6vw, 25px) !important;
-  }
-
-  .portfolio-section .responsive-body-copy,
-  .portfolio-section .responsive-small-copy {
-    font-size: clamp(15px, 1.8vw, 21px) !important;
-  }
-
-  #footer-overlay p {
-    font-size: 14px !important;
-  }
-}
-
-@media (max-width: 767px) {
-  #main-nav {
-    gap: 4px 10px;
-    padding: 6px 12px !important;
-  }
-
-  #nav-avatar {
-    width: 38px !important;
-    height: 38px !important;
-  }
-
-  #nav-logo-btn {
-    gap: 7px !important;
-  }
-
-  .nav-logo-text {
-    font-size: clamp(17px, 5vw, 22px) !important;
-    letter-spacing: 0.2px !important;
-  }
-
-  #nav-links {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0 !important;
-  }
-
-  .nav-link-btn {
-    min-height: 44px;
-    padding: 8px 1px !important;
-    font-size: 12px !important;
-    line-height: 1.2 !important;
-  }
-
-  #nav-cv-btn {
-    padding: 9px 11px !important;
-    font-size: 13px !important;
-  }
-
-  .portfolio-section {
-    gap: 12px;
-    padding: 12px;
-  }
-
-  #section-home {
-    grid-template-columns: minmax(0, 1fr) minmax(76px, 108px);
-    gap: 5px 8px;
-    padding: 6px 12px;
-  }
-
-  #section-home p {
-    margin-bottom: 0;
-  }
-
-  #section-home .home-greeting,
-  #section-home .home-name,
-  #section-home .home-headline-primary,
-  #section-home .home-headline-secondary {
-    grid-column: 1;
-  }
-
-  #section-home .home-introduction-copy {
-    grid-column: 1 / -1;
-  }
-
-  #section-home #hire-me-btn {
-    grid-column: 1 / -1;
-  }
-
-  #section-home .home-social-group {
-    grid-column: 1 / -1;
-  }
-
-  #section-home .home-tool-group {
-    grid-column: 2;
-    grid-row: 1 / span 4;
-    align-self: center;
-    width: 100% !important;
-    max-width: 108px !important;
-    gap: 2px;
-  }
-
-  #section-home .home-tool-group svg {
-    width: 18px !important;
-    height: 18px !important;
-    max-height: 18px !important;
-  }
-
-  #section-home .home-tool-group img {
-    width: 42px !important;
-    height: 52px !important;
-    max-height: 52px !important;
-  }
-
-  #section-home .home-introduction-copy p {
-    margin-bottom: 0.35rem;
-    line-height: 1.22 !important;
-  }
-
-  #section-home .home-headline-primary,
-  #section-home .home-headline-secondary {
-    line-height: 1.1 !important;
-  }
-
-  .portfolio-section .responsive-hero-heading {
-    font-size: clamp(36px, 10vw, 52px) !important;
-  }
-
-  .portfolio-section .responsive-section-heading {
-    font-size: clamp(29px, 8vw, 40px) !important;
-  }
-
-  .portfolio-section .responsive-subheading {
-    font-size: clamp(25px, 7vw, 34px) !important;
-  }
-
-  .portfolio-section .responsive-card-heading {
-    font-size: clamp(23px, 6vw, 30px) !important;
-  }
-
-  .portfolio-section .responsive-label-heading {
-    font-size: clamp(18px, 4.8vw, 23px) !important;
-  }
-
-  .portfolio-section .responsive-body-copy {
-    font-size: clamp(16px, 4.2vw, 19px) !important;
-  }
-
-  .portfolio-section .responsive-small-copy {
-    font-size: clamp(15px, 3.8vw, 17px) !important;
-  }
-
-  .portfolio-section .home-social-button {
-    flex-basis: 44px;
-    width: 44px !important;
-    height: 44px !important;
-  }
-
-  .portfolio-section :is(button, .portfolio-action-button) {
-    min-height: 44px;
-    font-size: 15px !important;
-  }
-
-  #footer-overlay {
-    min-height: 36px;
-  }
-
-  #footer-overlay p {
-    font-size: 12px !important;
-  }
-}
-
-@media (min-width: 1201px) {
-  /* Keep the existing fixed desktop canvas and scale behaviour unchanged. */
-}
+    grid-area: links; display: flex; gap: 2px; width: 100%;
+    overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity;
+  }
+  #nav-links::-webkit-scrollbar { display: none; }
+  .nav-link-btn { flex: 0 0 auto; min-height: 44px; padding: 8px 12px; font-size: 15px; letter-spacing: 0; scroll-snap-align: center; }
+  .nav-active-indicator { right: 8px; bottom: 2px; left: 8px; height: 3px; border-radius: 20px; }
+
+  body[data-page="home"] #nav-btn-home,
+  body[data-page="about"] #nav-btn-about,
+  body[data-page="projects"] #nav-btn-projects,
+  body[data-page="skills"] #nav-btn-skills,
+  body[data-page="experience"] #nav-btn-experience,
+  body[data-page="contact"] #nav-btn-contact,
+  body[data-page="caseStudy"] #nav-btn-projects { color: #fd6f00; }
+  body[data-page="home"] #indicator-home,
+  body[data-page="about"] #indicator-about,
+  body[data-page="projects"] #indicator-projects,
+  body[data-page="skills"] #indicator-skills,
+  body[data-page="experience"] #indicator-experience,
+  body[data-page="contact"] #indicator-contact,
+  body[data-page="caseStudy"] #indicator-projects { display: block; }
+
+  #centering-row, #viewport-container, #glass-workspace, #scroll-region { width: 100%; min-width: 0; max-width: 100%; }
+  #centering-row { flex: 1 1 auto; min-height: 0; }
+  #viewport-container { height: 100%; border-radius: 20px 20px 0 0; }
+  #glass-workspace { height: 100%; border-width: 2px 2px 0; border-radius: inherit; }
+  #scroll-region { flex: 1 1 auto; height: auto; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  #content-sizer, #section-scaler { position: relative; top: auto; left: auto; width: 100%; height: auto; min-height: 0; transform: none; }
+
+  #footer-overlay { flex: 0 0 auto; width: 100%; height: auto; min-height: 32px; padding: 7px 12px; }
+  #footer-overlay p { max-width: 100%; font-size: 12px; line-height: 1.3; letter-spacing: 0.2px; overflow-wrap: anywhere; }
+  #overlay-back-projects { display: none; }
+
+  /* ---------- 2. Reflow: un-position the Figma canvas ---------- */
+  #section-scaler .portfolio-section {
+    display: flex; flex-direction: column; align-items: stretch; gap: 16px;
+    width: 100%; height: auto; min-height: 0; padding: 16px; overflow: visible;
+  }
+  .portfolio-section :is(div, p, span, a, button, img, svg, ul, li, label, input, textarea, form) {
+    position: static; inset: auto; transform: none; translate: none; rotate: none; scale: none; float: none;
+    width: auto; height: auto; min-width: 0; min-height: 0; max-width: 100%; margin: 0;
+  }
+  .portfolio-section div { display: flex; flex-direction: column; gap: 12px; }
+  .portfolio-section div:empty, .portfolio-section svg[preserveAspectRatio="none"] { display: none; }
+  .portfolio-section p { text-align: left; white-space: normal; overflow-wrap: break-word; }
+  .portfolio-section img { display: block; height: auto; }
+  /* Figma leftovers: texture, desktop nav and brand copies baked into every section */
+  #section-scaler .portfolio-section > .site-background-texture,
+  #section-scaler .portfolio-section > .responsive-desktop-navigation,
+  #section-scaler .portfolio-section > .responsive-brand-lockup,
+  #section-scaler .portfolio-section > .responsive-brand-avatar-artwork,
+  #section-scaler .portfolio-section > [class*="-group-home"],
+  #section-scaler .portfolio-section > [class*="downlaod-cv"],
+  #section-scaler .portfolio-section > [class*="-group-mr-kolobe"],
+  #section-scaler .portfolio-section > [class*="group-me-projects-skills"] { display: none; }
+  .portfolio-section :is(button, .portfolio-action-button) { min-height: 44px; max-width: 100%; padding: 10px 16px; font-size: 16px; line-height: 1.25; }
+
+  /* Portrait: use the finished blob + portrait composite instead of the layered Figma crops */
+  .portfolio-section :is(.home-tool-group, .about-group-ui-ux-designer-with-front-end-expertise-alternate-3) {
+    display: block; flex: 0 0 auto; width: min(100%, 360px); aspect-ratio: 600 / 612; margin-inline: auto;
+    background: url("../assets/images/Myself.png") center / contain no-repeat;
+  }
+  .portfolio-section :is(.home-tool-group, .about-group-ui-ux-designer-with-front-end-expertise-alternate-3) > * { display: none; }
+
+  /* ---------- 3. Type scale ---------- */
+  .portfolio-section .responsive-hero-heading { font-size: clamp(36px, 8vw, 96px); line-height: 1.1; }
+  .portfolio-section .responsive-section-heading { font-size: clamp(29px, 5.5vw, 65px); text-align: center; }
+  .portfolio-section .responsive-subheading { font-size: clamp(25px, 4.2vw, 40px); }
+  .portfolio-section .responsive-card-heading { font-size: clamp(23px, 3.6vw, 32px); }
+  .portfolio-section .responsive-label-heading { font-size: clamp(18px, 2.6vw, 25px); }
+  .portfolio-section .responsive-body-copy { font-size: clamp(16px, 2.2vw, 21px); }
+  .portfolio-section .responsive-small-copy { font-size: clamp(15px, 2vw, 19px); }
+  .portfolio-section .responsive-section-heading::after {
+    content: ""; display: block; width: 120px; height: 8px; margin: 10px auto 0; border-radius: 20px; background: #fd6f00;
+  }
+
+  /* ---------- 4. Pages ---------- */
+
+  /* Home */
+  #section-home .home-social-group,
+  #section-home .home-social-group div { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
+  .portfolio-section .home-social-button { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; }
+  .portfolio-section .home-social-button svg { width: 26px; height: 26px; }
+
+  /* About */
+  .portfolio-section .about-group-me-alternate-3 { order: -1; }
+  .portfolio-section [class*="about-group-user-centered-thinking-every-decision"] { order: -1; }
+  .portfolio-section div:has(> p.responsive-card-heading):not(:has(> p.responsive-body-copy)):has(> div) { flex-direction: column-reverse; }
+  .portfolio-section div:has(> p.responsive-small-copy):has(> div):not(:has(> p:not(.responsive-small-copy))) { flex-direction: column-reverse; }
+  .portfolio-section div:has(> .about-group-years-experience-3) { flex-direction: row; flex-wrap: wrap; }
+  .portfolio-section div:has(> .about-group-years-experience-3) > * { flex: 0 0 100%; }
+  .portfolio-section div:has(> .about-group-years-experience-3) > :is(.about-group-years-experience-3, .about-group-projects-completed-30, .about-group-50-happy-clients) {
+    flex: 1 1 calc(33.333% - 8px); min-width: 96px; align-items: center; text-align: center;
+  }
+  .portfolio-section div:has(> p[class*="about-process-step-number"]) > p { order: 2; }
+  .portfolio-section div:has(> p[class*="about-process-step-number"]) > p[class*="about-process-step-number"] { order: 0; }
+  .portfolio-section div:has(> p[class*="about-process-step-number"]) > :is(.about-copy-discover, .about-copy-define, .about-copy-ideate, .about-copy-design, .about-copy-test, .about-copy-iterate) { order: 1; font-weight: 600; }
+
+  /* Projects */
+  .portfolio-section div:has(> .project-tile) { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+  .portfolio-section .project-tile {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; align-content: start; padding: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 14px;
+    background: rgba(104, 104, 104, 0.2); -webkit-backdrop-filter: blur(7.5px); backdrop-filter: blur(7.5px);
+  }
+  .project-tile > * { grid-column: 1 / -1; order: 0; }
+  .project-tile > :not([class*="projects-group-figma"]) { border: 0; }
+  .project-tile [class*="projects-group-figma"] > * { border: 0; }
+  .project-tile > [class*="projects-group-industry"], .project-tile > [class*="projects-group-duration"],
+  .project-tile > [class*="projects-group-role"], .project-tile > [class*="projects-group-tools"] { grid-column: auto; order: 5; gap: 2px; }
+  .project-tile > :is([class*="projects-group-industry"], [class*="projects-group-duration"], [class*="projects-group-role"], [class*="projects-group-tools"]) > p:first-child { opacity: 0.65; font-size: 13px; }
+  .project-tile > [class*="projects-group-figma"] { grid-column: auto; order: 7; justify-self: start; padding: 4px 14px; border: 1px solid #fd6f00; border-radius: 999px; }
+  .project-tile > [class*="projects-group-case-study"] { order: 9; }
+  .project-tile img { width: 100%; display: block; border-radius: 10px; }
+  .project-tile > .projects-group-e { aspect-ratio: 16 / 9; align-items: center; justify-content: center; border-radius: 10px; background: rgba(255, 255, 255, 0.06); }
+  .portfolio-section .projects-copy-e::after { display: none; }
+
+  /* Experience */
+  #section-experience div:has(> p + p) { display: block; align-self: stretch; white-space: normal; } /* source indentation between the <p>s must collapse */
+  #section-experience div:has(> p + p) > p { display: inline; }
+  #section-experience div:has(> div > p.responsive-label-heading):has(> div > div > p.responsive-card-heading) { flex-direction: column-reverse; }
+  #section-experience div:has(> p.responsive-label-heading):has(> div) { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+  #section-experience div:has(> p.responsive-label-heading):has(> div) > p { flex: 0 0 100%; }
+  #section-experience div:has(> p.responsive-label-heading):has(> div) > div { flex: 0 0 auto; border: 0; }
+
+  /* Contact */
+  .contact-form-control { display: block; width: 100%; min-height: 48px; padding: 10px 14px; font-size: 16px; }
+  .contact-message-control { min-height: 150px; }
+  .portfolio-section div:has(> :is(input, textarea)):has(> div > label) > div:has(> label) { order: -1; }
+  .portfolio-section div:has(> .contact-group-send-message) > .contact-group-send-message { order: 99; }
+  .contact-action-send-message { width: 100%; }
+  #section-contact p[class*="contact-copy-mm"]:not([class*="working"]) {
+    width: 56px; height: 56px; margin-top: -56px; display: grid; place-items: center; font-weight: 600; text-align: center;
+  }
+
+  /* Case study: Figma layer order puts the closing reflection first */
+  .portfolio-section > [class*="case-study-group-reflection"] { order: 99; }
+  .portfolio-section .case-study-copy-back-to-projects { order: -3; }
+  .portfolio-section > .case-study-group-e { order: -2; }
+  .portfolio-section > .case-study-copy-e-commerce-redesign { order: -1; }
+  .portfolio-section > [class*="case-study-group-31-projects"]:not(:has(p)) { display: none; }
+  .portfolio-section > [class*="case-study-group-type-retail"] { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+  .portfolio-section > [class*="case-study-group-type-retail"] > div { display: block; }
+
+  /* ---------- 5. Components (carried over from the original file) ---------- */
 
-@media (max-width: 1200px) {
   #section-skills .skill-progress-row {
-    display: grid !important;
+    display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 4px 12px;
-    width: 100% !important;
+    width: 100%;
     margin-bottom: 12px;
   }
 
   #section-skills .skill-progress-row > p {
-    margin: 0 !important;
+    margin: 0;
   }
 
   #section-skills .skill-progress-track {
-    position: relative !important;
-    display: block !important;
+    position: relative;
+    display: block;
     grid-column: 1 / -1;
-    width: 100% !important;
-    height: 20px !important;
-    min-height: 20px !important;
+    width: 100%;
+    height: 20px;
+    min-height: 20px;
     overflow: hidden;
     border-radius: 10px;
   }
 
   #section-skills .skill-progress-rail,
   #section-skills .skill-progress-fill {
-    position: absolute !important;
-    inset: 0 auto 0 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    max-width: none !important;
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-width: none;
     border-radius: 10px;
   }
 
   #section-skills .skill-progress-fill {
-    width: 90% !important;
+    width: 90%;
   }
 
   #section-skills.skill-progress-enhanced .skill-progress-fill {
-    width: 0 !important;
+    width: 0;
   }
 
   #section-skills.skill-progress-enhanced .skill-progress-row.is-animating .skill-progress-fill {
-    width: var(--skill-progress-width, 0px) !important;
+    width: var(--skill-progress-width, 0px);
   }
 
   #section-skills.skill-progress-enhanced .skill-progress-row.is-complete .skill-progress-fill {
-    width: var(--skill-progress-width, 0px) !important;
+    width: var(--skill-progress-width, 0px);
   }
 
   #section-contact .contact-group-mm-working-with-phemelo-was-a-game-tertiary {
-    position: relative !important;
-    inset: auto !important;
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    overflow: hidden !important;
-    transform: none !important;
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    transform: none;
   }
 
   #section-contact .contact-testimonial-track {
-    position: relative !important;
-    inset: auto !important;
-    display: flex !important;
-    width: 300% !important;
-    max-width: none !important;
-    height: auto !important;
-    transform: translateX(var(--carousel-position, -33.333%)) !important;
+    position: relative;
+    inset: auto;
+    display: flex;
+    width: 300%;
+    max-width: none;
+    height: auto;
+    transform: translateX(var(--carousel-position, -33.333%));
     transition: transform 500ms ease;
   }
 
   #section-contact .contact-testimonial-track > .contact-group-mm-working-with-phemelo-was-a-game-alternate-3,
   #section-contact .contact-testimonial-track > .contact-group-mm-working-with-phemelo-was-a-game-alternate-8,
   #section-contact .contact-testimonial-track > .contact-group-mm-working-with-phemelo-was-a-game-alternate-12 {
-    position: relative !important;
-    inset: auto !important;
-    display: flex !important;
-    flex: 0 0 33.333% !important;
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex: 0 0 33.333%;
     flex-direction: column;
-    width: 33.333% !important;
-    height: auto !important;
-    max-width: none !important;
+    width: 33.333%;
+    height: auto;
+    max-width: none;
     min-height: 0;
     padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.8);
@@ -656,7 +275,7 @@
     background-color: rgba(104, 104, 104, 0.2);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(25px);
-    transform: none !important;
+    transform: none;
     order: 0;
   }
 
@@ -675,65 +294,65 @@
   #section-contact .contact-group-mm-working-with-phemelo-was-a-game-alternate-5,
   #section-contact .contact-group-mm-working-with-phemelo-was-a-game-alternate-10,
   #section-contact .contact-group-mm-working-with-phemelo-was-a-game-alternate-14 {
-    display: none !important;
+    display: none;
   }
 
   #section-contact .contact-group-mm-secondary,
   #section-contact .contact-group-mm-alternate-3,
   #section-contact .contact-group-mm-alternate-5 {
     flex: 0 0 56px;
-    width: 56px !important;
-    height: 56px !important;
-    max-width: none !important;
+    width: 56px;
+    height: 56px;
+    max-width: none;
     border-radius: 14px;
   }
 
   #section-contact .contact-icon-mm-working-with-phemelo-was-a-game {
-    width: 48px !important;
-    height: 48px !important;
-    max-width: 48px !important;
-    max-height: 48px !important;
+    width: 48px;
+    height: 48px;
+    max-width: 48px;
+    max-height: 48px;
   }
 
   #section-contact .contact-group-slider {
-    position: relative !important;
-    inset: auto !important;
-    display: flex !important;
+    position: relative;
+    inset: auto;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    width: 100% !important;
-    height: auto !important;
+    width: 100%;
+    height: auto;
     margin-top: 4px;
-    transform: none !important;
+    transform: none;
   }
 
   #section-contact .contact-group-slider > .contact-group-1,
   #section-contact .contact-group-slider > .contact-group-2,
   #section-contact .contact-group-slider > .contact-group-3,
   #section-contact .contact-group-slider > .contact-group-4 {
-    position: static !important;
+    position: static;
     flex: 0 0 24px;
-    width: 24px !important;
-    height: 6px !important;
+    width: 24px;
+    height: 6px;
     min-height: 0;
-    max-width: none !important;
+    max-width: none;
     border-radius: 8px;
   }
 
   #section-contact .contact-carousel-control {
-    position: static !important;
+    position: static;
     flex: 0 0 42px;
-    width: 42px !important;
-    height: 42px !important;
-    min-height: 42px !important;
-    max-width: none !important;
-    padding: 0 !important;
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+    max-width: none;
+    padding: 0;
     border: 0;
     background: transparent;
     color: white;
-    font-size: 32px !important;
-    line-height: 1 !important;
+    font-size: 32px;
+    line-height: 1;
   }
 
   #section-contact .contact-carousel-control:hover,
@@ -741,4 +360,37 @@
     color: #fd6f00;
   }
 
+  #section-contact .contact-testimonial-track { flex-direction: row; align-items: flex-start; gap: 0; } /* main.js translates by whole card widths */
+  #section-contact .contact-group-slider { flex-direction: row; flex-wrap: wrap; }
+}
+
+/* Tablets: a little more breathing room (Home stays single-column; its portrait is nested too deep to grid reliably) */
+@media (min-width: 768px) and (max-width: 1200px) {
+  #section-scaler .portfolio-section { padding: 24px; gap: 20px; }
+}
+
+/* ---------- 6. Phones: one natural page scroll with a sticky nav ----------
+   Tablets keep the internal-scroll application viewport. */
+@media (max-width: 767px), (max-width: 1200px) and (max-height: 520px) {
+  html { height: auto; overflow-x: hidden; overflow-y: auto; }
+  /* body must not become a scroll container or position: sticky stops working */
+  body { height: auto; min-height: 100%; overflow-x: clip; overflow-y: visible; }
+  #app { height: auto; min-height: 100vh; min-height: 100dvh; overflow: visible; position: relative; isolation: isolate; background: none; }
+  /* fixed pseudo-element keeps the paper texture still while scrolling (works on iOS) */
+  #app::before { content: ""; position: fixed; inset: 0; z-index: -1; background: url("../assets/images/9d071e4bbca0a9aff62a72135e2d05a01bd56cc1.png") center / cover no-repeat; }
+  #main-nav { position: sticky; top: 0; z-index: 50; background: rgba(18, 18, 18, 0.82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  #centering-row { overflow: visible; flex: 1 0 auto; }
+  #viewport-container { height: auto; overflow: visible; }
+  #glass-workspace { height: auto; min-height: calc(100dvh - 110px); display: flex; flex-direction: column; }
+  #scroll-region { overflow: visible; height: auto; flex: 1 0 auto; }
+  #section-scaler .portfolio-section { gap: 12px; padding: 12px; }
+}
+
+/* Short landscape screens: one slim nav row so content gets the height */
+@media (max-width: 1200px) and (max-height: 520px) {
+  #main-nav { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "brand links cv"; align-items: center; gap: 8px 12px; padding: 6px 16px; }
+  #nav-avatar { width: 34px; height: 34px; }
+  .nav-logo-text { font-size: 20px; }
+  .nav-link-btn, #nav-cv-btn { min-height: 40px; padding: 6px 10px; font-size: 14px; }
+  #glass-workspace { min-height: calc(100dvh - 56px); }
 }

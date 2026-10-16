@@ -13061,8 +13061,11 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden
+  /* Let the browser scroll normally; #scroll-region can still manage its own scroll */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
 
 /* ── App shell ────────────────────────────────────────────────── */
 #app {
